@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест: П. Куліш "Чорна рада"</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #0e0e0e;
+            --surface: #161616;
+            --border: #2a2a2a;
+            --text: #f0ede8;
+            --muted: #7a7a7a;
+            --accent: #c9a84c;
+            --success: #4caf50;
+            --danger: #e05c5c;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 620px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 40px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden { display: none !important; }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+
+        .subtitle {
+            font-size: 0.8rem;
+            color: var(--muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* AUTH */
+        .auth-desc {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 14px 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+            color: var(--text);
+        }
+        .btn:hover { border-color: var(--accent); color: var(--accent); }
+        .btn-primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #0e0e0e;
+            font-weight: 600;
+        }
+        .btn-primary:hover { background: #d4b060; border-color: #d4b060; color: #0e0e0e; }
+        .btn-success {
+            background: transparent;
+            border-color: var(--success);
+            color: var(--success);
+            margin-top: 24px;
+        }
+        .btn-success:hover { background: var(--success); color: #0e0e0e; }
+
+        /* CODE SECTION */
+        .alert-box {
+            border: 1px solid var(--danger);
+            border-radius: 3px;
+            padding: 14px 16px;
+            font-size: 0.85rem;
+            color: var(--danger);
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]::placeholder { color: var(--muted); }
+        input[type="text"]:focus { outline: none; border-color: var(--accent); }
+
+        /* QUIZ HEADER */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .user-name {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+        .score-box {
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        /* QUESTIONS */
+        .question {
+            margin-bottom: 28px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid var(--border);
+        }
+        .question:last-of-type { border-bottom: none; }
+
+        .question p {
+            font-size: 0.9rem;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-bottom: 14px;
+            color: var(--text);
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            margin-bottom: 6px;
+            border: 1px solid transparent;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: var(--muted);
+            transition: all 0.15s;
+        }
+        label:hover { color: var(--text); border-color: var(--border); }
+
+        label input[type="radio"] {
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border: 1px solid var(--muted);
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: all 0.15s;
+            position: relative;
+        }
+        label:has(input:checked) {
+            color: var(--text);
+            border-color: var(--accent);
+            background: rgba(201,168,76,0.06);
+        }
+        label:has(input:checked) input[type="radio"] {
+            border-color: var(--accent);
+            background: var(--accent);
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 24px 20px; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>"Чорна рада"</h1>
+    <p class="subtitle">Пантелеймон Куліш — тестування</p>
+
+    <div id="auth-section">
+        <p class="auth-desc">Увійдіть через Google-акаунт, щоб система зарахувала ваші результати.</p>
+        <button class="btn btn-primary" id="login-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Увійти через Gmail
+        </button>
+    </div>
+
+    <div id="code-section" class="hidden">
+        <div class="alert-box">Ви вже проходили цей тест.</div>
+        <p style="font-size:0.85rem; color:var(--muted); margin-bottom:14px;">Для повторної спроби введіть секретний код:</p>
+        <input type="text" id="special-code" placeholder="Наприклад: KULISH2026">
+        <button class="btn" id="submit-code">Підтвердити</button>
+    </div>
+
+    <div id="quiz-section" class="hidden">
+        <div class="quiz-header">
+            <span class="user-name" id="user-display">Гравець...</span>
+            <span class="score-box">Бали: <span id="current-score">0</span> / 6</span>
+        </div>
+
+        <div id="questions">
+            <div class="question" data-correct="1">
+                <p>1. Хто є автором першого українського історичного роману "Чорна рада"?</p>
+                <label><input type="radio" name="q1" value="0"> Тарас Шевченко</label>
+                <label><input type="radio" name="q1" value="1"> Пантелеймон Куліш</label>
+                <label><input type="radio" name="q1" value="0"> Іван Франко</label>
+            </div>
+            <div class="question" data-correct="2">
+                <p>2. Де відбувається основна подія роману (сама рада)?</p>
+                <label><input type="radio" name="q2" value="0"> У Києві</label>
+                <label><input type="radio" name="q2" value="2"> У Ніжині</label>
+                <label><input type="radio" name="q2" value="0"> На Січі</label>
+            </div>
+            <div class="question" data-correct="1">
+                <p>3. Хто з героїв є "Божим чоловіком"?</p>
+                <label><input type="radio" name="q3" value="0"> Яким Сомко</label>
+                <label><input type="radio" name="q3" value="1"> Сліпий кобзар-перехожий</label>
+                <label><input type="radio" name="q3" value="0"> Михайло Черевань</label>
+            </div>
+            <div class="question" data-correct="3">
+                <p>4. Кого було обрано гетьманом на Чорній раді?</p>
+                <label><input type="radio" name="q4" value="0"> Якима Сомка</label>
+                <label><input type="radio" name="q4" value="0"> Васюту Золотаренка</label>
+                <label><input type="radio" name="q4" value="3"> Івана Брюховецького</label>
+            </div>
+            <div class="question" data-correct="1">
+                <p>5. Хто викрав Лесю Черевань, щоб врятувати її від шлюбу без любові?</p>
+                <label><input type="radio" name="q5" value="1"> Кирило Тур</label>
+                <label><input type="radio" name="q5" value="0"> Петро Шрамченко</label>
+            </div>
+            <div class="question" data-correct="2">
+                <p>6. Яка головна ідея твору?</p>
+                <label><input type="radio" name="q6" value="0"> Показ любовних пригод козаків</label>
+                <label><input type="radio" name="q6" value="2"> Заклик до єдності та засудження міжусобиць</label>
+            </div>
+        </div>
+
+        <button class="btn btn-success" id="finish-btn">Завершити тест</button>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyB7RvEg9vfp4Lo6O7QEBk4UmS_Y3bZ0KxA",
+        authDomain: "for-literatyra.firebaseapp.com",
+        projectId: "for-literatyra",
+        storageBucket: "for-literatyra.firebasestorage.app",
+        messagingSenderId: "397284064199",
+        appId: "1:397284064199:web:1e89197505edc29b7cf7e2",
+        measurementId: "G-82KMRRFKRB",
+        databaseURL: "https://for-literatyra-default-rtdb.europe-west1.firebasedatabase.app/"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
+    let currentUser = null;
+    let authHandled = false;
+
+    // Слухач стану — спрацьовує якщо користувач вже залогінений
+    onAuthStateChanged(auth, (user) => {
+        if (user && !authHandled) {
+            authHandled = true;
+            handleAuthSuccess(user);
+        }
+    });
+
+    // Кнопка входу — popup замість redirect
+    document.getElementById('login-btn').onclick = async () => {
+        try {
+            const provider = new GoogleAuthProvider();
+            const result = await signInWithPopup(auth, provider);
+            if (result.user && !authHandled) {
+                authHandled = true;
+                handleAuthSuccess(result.user);
+            }
+        } catch (err) {
+            if (err.code !== 'auth/popup-closed-by-user') {
+                console.error("Помилка входу:", err);
+            }
+        }
+    };
+
+    async function handleAuthSuccess(user) {
+        currentUser = user;
+        document.getElementById('auth-section').classList.add('hidden');
+
+        const snap = await get(ref(db, 'results/' + user.uid));
+        if (snap.exists() && snap.val().finished) {
+            document.getElementById('code-section').classList.remove('hidden');
+        } else {
+            startQuiz();
+        }
+    }
+
+    function startQuiz() {
+        document.getElementById('quiz-section').classList.remove('hidden');
+        document.getElementById('user-display').innerText = currentUser.displayName;
+
+        update(ref(db, 'results/' + currentUser.uid), {
+            name: currentUser.displayName,
+            finished: false
+        });
+
+        const scoreSpan = document.getElementById('current-score');
+        document.querySelectorAll('input[type=radio]').forEach(radio => {
+            radio.onchange = () => {
+                let score = 0;
+                document.querySelectorAll('.question').forEach(q => {
+                    const correct = q.getAttribute('data-correct');
+                    const selected = q.querySelector('input:checked');
+                    if (selected && selected.value === correct) score++;
+                });
+                scoreSpan.innerText = score;
+                update(ref(db, 'results/' + currentUser.uid), { score });
+            };
+        });
+    }
+
+    document.getElementById('finish-btn').onclick = () => {
+        if (confirm("Завершити тест? Результат буде збережено.")) {
+            update(ref(db, 'results/' + currentUser.uid), { finished: true }).then(() => {
+                alert("Результат збережено!");
+                location.reload();
+            });
+        }
+    };
+
+    document.getElementById('submit-code').onclick = () => {
+        const code = document.getElementById('special-code').value.trim();
+        if (code === 'KULISH2026') {
+            update(ref(db, 'results/' + currentUser.uid), { finished: false }).then(() => {
+                document.getElementById('code-section').classList.add('hidden');
+                authHandled = false;
+                startQuiz();
+            });
+        } else {
+            alert("Невірний код.");
+        }
+    };
+</script>
+</body>
+</html>
